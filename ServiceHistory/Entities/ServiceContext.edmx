@@ -1,0 +1,810 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SHistoryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CarOwner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="100" />
+          <Property Name="PhoneNo" Type="nvarchar" MaxLength="25" />
+          <Property Name="Country" Type="nvarchar" MaxLength="100" />
+          <Property Name="insDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="CarOwnership">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" Nullable="false" />
+          <Property Name="CarId" Type="bigint" Nullable="false" />
+          <Property Name="OwnerId" Type="int" Nullable="false" />
+          <Property Name="VIN" Type="nvarchar" MaxLength="17" Nullable="false" />
+          <Property Name="insDate" Type="datetime" Nullable="false" />
+          <Property Name="OwnerFrom" Type="datetime" Nullable="false" />
+          <Property Name="OwnerTo" Type="datetime" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Cars">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VIN" Type="nvarchar" MaxLength="17" Nullable="false" />
+          <Property Name="LicencePlate" Type="nvarchar" MaxLength="15" />
+          <Property Name="OwnerId" Type="int" Nullable="false" />
+          <Property Name="Color" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="CurrentOdometer" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Colours">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PhonePreffix" Type="nvarchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="RegistrationDictionary">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegistrationName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServiceDictionary">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SortOrder" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ServiceHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CarId" Type="bigint" Nullable="false" />
+          <Property Name="LicencePlate" Type="nvarchar" MaxLength="15" />
+          <Property Name="Odometer" Type="int" Nullable="false" />
+          <Property Name="InsDate" Type="datetime" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="PlaceId" Type="int" Nullable="false" />
+          <Property Name="ServiceDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ServiceHistoryService">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceDictionaryId" Type="smallint" Nullable="false" />
+          <Property Name="ServieHistoryId" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="500" />
+          <Property Name="InsDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ServiceStations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Country" Type="nvarchar" MaxLength="100" />
+          <Property Name="City" Type="nvarchar" MaxLength="100" />
+          <Property Name="Street" Type="nvarchar" MaxLength="100" />
+          <Property Name="BuildingNo" Type="nvarchar" MaxLength="10" />
+          <Property Name="ServiceName" Type="nvarchar" MaxLength="155" />
+          <Property Name="insDate" Type="datetime" />
+          <Property Name="RegistrationId" Type="int" Nullable="false" />
+          <Property Name="RegistrationNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="VIN">
+          <Key>
+            <PropertyRef Name="VIN" />
+          </Key>
+          <Property Name="VIN" Type="nvarchar" MaxLength="17" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CarOwner_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="CarOwner" Type="Self.CarOwner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="CarOwner">
+              <PropertyRef Name="Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarOwnership_CarOwner">
+          <End Role="CarOwner" Type="Self.CarOwner" Multiplicity="1" />
+          <End Role="CarOwnership" Type="Self.CarOwnership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarOwner">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CarOwnership">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarOwnership_VIN">
+          <End Role="VIN" Type="Self.VIN" Multiplicity="1" />
+          <End Role="CarOwnership" Type="Self.CarOwnership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VIN">
+              <PropertyRef Name="VIN" />
+            </Principal>
+            <Dependent Role="CarOwnership">
+              <PropertyRef Name="VIN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cars_Colours">
+          <End Role="Colours" Type="Self.Colours" Multiplicity="1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colours">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="Color" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cars_VIN">
+          <End Role="VIN" Type="Self.VIN" Multiplicity="1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VIN">
+              <PropertyRef Name="VIN" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="VIN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegistrationDictionary_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="1" />
+          <End Role="RegistrationDictionary" Type="Self.RegistrationDictionary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="RegistrationDictionary">
+              <PropertyRef Name="Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceHistory_Cars">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="1" />
+          <End Role="ServiceHistory" Type="Self.ServiceHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceHistory">
+              <PropertyRef Name="CarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceHistoryService_ServiceDictionary">
+          <End Role="ServiceDictionary" Type="Self.ServiceDictionary" Multiplicity="1" />
+          <End Role="ServiceHistoryService" Type="Self.ServiceHistoryService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceDictionary">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceHistoryService">
+              <PropertyRef Name="ServiceDictionaryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceHistoryService_ServiceHistory">
+          <End Role="ServiceHistory" Type="Self.ServiceHistory" Multiplicity="1" />
+          <End Role="ServiceHistoryService" Type="Self.ServiceHistoryService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceHistory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceHistoryService">
+              <PropertyRef Name="ServieHistoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceStations_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="ServiceStations" Type="Self.ServiceStations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="ServiceStations">
+              <PropertyRef Name="Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceStations_RegistrationDictionary">
+          <End Role="RegistrationDictionary" Type="Self.RegistrationDictionary" Multiplicity="1" />
+          <End Role="ServiceStations" Type="Self.ServiceStations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegistrationDictionary">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceStations">
+              <PropertyRef Name="RegistrationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SHistoryModelStoreContainer">
+          <EntitySet Name="CarOwner" EntityType="Self.CarOwner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarOwnership" EntityType="Self.CarOwnership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cars" EntityType="Self.Cars" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Colours" EntityType="Self.Colours" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegistrationDictionary" EntityType="Self.RegistrationDictionary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceDictionary" EntityType="Self.ServiceDictionary" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceHistory" EntityType="Self.ServiceHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceHistoryService" EntityType="Self.ServiceHistoryService" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServiceStations" EntityType="Self.ServiceStations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VIN" EntityType="Self.VIN" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CarOwner_Countries" Association="Self.FK_CarOwner_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="CarOwner" EntitySet="CarOwner" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarOwnership_CarOwner" Association="Self.FK_CarOwnership_CarOwner">
+            <End Role="CarOwner" EntitySet="CarOwner" />
+            <End Role="CarOwnership" EntitySet="CarOwnership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarOwnership_VIN" Association="Self.FK_CarOwnership_VIN">
+            <End Role="VIN" EntitySet="VIN" />
+            <End Role="CarOwnership" EntitySet="CarOwnership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cars_Colours" Association="Self.FK_Cars_Colours">
+            <End Role="Colours" EntitySet="Colours" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cars_VIN" Association="Self.FK_Cars_VIN">
+            <End Role="VIN" EntitySet="VIN" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegistrationDictionary_Countries" Association="Self.FK_RegistrationDictionary_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="RegistrationDictionary" EntitySet="RegistrationDictionary" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceHistory_Cars" Association="Self.FK_ServiceHistory_Cars">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="ServiceHistory" EntitySet="ServiceHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceHistoryService_ServiceDictionary" Association="Self.FK_ServiceHistoryService_ServiceDictionary">
+            <End Role="ServiceDictionary" EntitySet="ServiceDictionary" />
+            <End Role="ServiceHistoryService" EntitySet="ServiceHistoryService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceHistoryService_ServiceHistory" Association="Self.FK_ServiceHistoryService_ServiceHistory">
+            <End Role="ServiceHistory" EntitySet="ServiceHistory" />
+            <End Role="ServiceHistoryService" EntitySet="ServiceHistoryService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceStations_Countries" Association="Self.FK_ServiceStations_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="ServiceStations" EntitySet="ServiceStations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceStations_RegistrationDictionary" Association="Self.FK_ServiceStations_RegistrationDictionary">
+            <End Role="RegistrationDictionary" EntitySet="RegistrationDictionary" />
+            <End Role="ServiceStations" EntitySet="ServiceStations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SHistoryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CarOwner">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNo" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="insDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Countries" Relationship="Self.FK_CarOwner_Countries" FromRole="CarOwner" ToRole="Countries" />
+          <NavigationProperty Name="CarOwnership" Relationship="Self.FK_CarOwnership_CarOwner" FromRole="CarOwner" ToRole="CarOwnership" />
+        </EntityType>
+        <EntityType Name="CarOwnership">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" />
+          <Property Name="CarId" Type="Int64" Nullable="false" />
+          <Property Name="OwnerId" Type="Int32" Nullable="false" />
+          <Property Name="VIN" Type="String" MaxLength="17" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="insDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OwnerFrom" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OwnerTo" Type="DateTime" Precision="3" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="CarOwner" Relationship="Self.FK_CarOwnership_CarOwner" FromRole="CarOwnership" ToRole="CarOwner" />
+          <NavigationProperty Name="VIN1" Relationship="Self.FK_CarOwnership_VIN" FromRole="CarOwnership" ToRole="VIN" />
+        </EntityType>
+        <EntityType Name="Cars">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VIN" Type="String" MaxLength="17" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LicencePlate" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerId" Type="Int32" Nullable="false" />
+          <Property Name="Color" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CurrentOdometer" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Colours" Relationship="Self.FK_Cars_Colours" FromRole="Cars" ToRole="Colours" />
+          <NavigationProperty Name="VIN1" Relationship="Self.FK_Cars_VIN" FromRole="Cars" ToRole="VIN" />
+          <NavigationProperty Name="ServiceHistory" Relationship="Self.FK_ServiceHistory_Cars" FromRole="Cars" ToRole="ServiceHistory" />
+        </EntityType>
+        <EntityType Name="Colours">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Cars_Colours" FromRole="Colours" ToRole="Cars" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhonePreffix" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CarOwner" Relationship="Self.FK_CarOwner_Countries" FromRole="Countries" ToRole="CarOwner" />
+          <NavigationProperty Name="RegistrationDictionary" Relationship="Self.FK_RegistrationDictionary_Countries" FromRole="Countries" ToRole="RegistrationDictionary" />
+          <NavigationProperty Name="ServiceStations" Relationship="Self.FK_ServiceStations_Countries" FromRole="Countries" ToRole="ServiceStations" />
+        </EntityType>
+        <EntityType Name="RegistrationDictionary">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RegistrationName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Countries" Relationship="Self.FK_RegistrationDictionary_Countries" FromRole="RegistrationDictionary" ToRole="Countries" />
+          <NavigationProperty Name="ServiceStations" Relationship="Self.FK_ServiceStations_RegistrationDictionary" FromRole="RegistrationDictionary" ToRole="ServiceStations" />
+        </EntityType>
+        <EntityType Name="ServiceDictionary">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SortOrder" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="ServiceHistoryService" Relationship="Self.FK_ServiceHistoryService_ServiceDictionary" FromRole="ServiceDictionary" ToRole="ServiceHistoryService" />
+        </EntityType>
+        <EntityType Name="ServiceHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CarId" Type="Int64" Nullable="false" />
+          <Property Name="LicencePlate" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="Odometer" Type="Int32" Nullable="false" />
+          <Property Name="InsDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceId" Type="Int32" Nullable="false" />
+          <Property Name="ServiceDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_ServiceHistory_Cars" FromRole="ServiceHistory" ToRole="Cars" />
+          <NavigationProperty Name="ServiceHistoryService" Relationship="Self.FK_ServiceHistoryService_ServiceHistory" FromRole="ServiceHistory" ToRole="ServiceHistoryService" />
+        </EntityType>
+        <EntityType Name="ServiceHistoryService">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceDictionaryId" Type="Int16" Nullable="false" />
+          <Property Name="ServieHistoryId" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="InsDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="ServiceDictionary" Relationship="Self.FK_ServiceHistoryService_ServiceDictionary" FromRole="ServiceHistoryService" ToRole="ServiceDictionary" />
+          <NavigationProperty Name="ServiceHistory" Relationship="Self.FK_ServiceHistoryService_ServiceHistory" FromRole="ServiceHistoryService" ToRole="ServiceHistory" />
+        </EntityType>
+        <EntityType Name="ServiceStations">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Street" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BuildingNo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceName" Type="String" MaxLength="155" FixedLength="false" Unicode="true" />
+          <Property Name="insDate" Type="DateTime" Precision="3" />
+          <Property Name="RegistrationId" Type="Int32" Nullable="false" />
+          <Property Name="RegistrationNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Countries" Relationship="Self.FK_ServiceStations_Countries" FromRole="ServiceStations" ToRole="Countries" />
+          <NavigationProperty Name="RegistrationDictionary" Relationship="Self.FK_ServiceStations_RegistrationDictionary" FromRole="ServiceStations" ToRole="RegistrationDictionary" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="VIN">
+          <Key>
+            <PropertyRef Name="VIN1" />
+          </Key>
+          <Property Name="VIN1" Type="String" MaxLength="17" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CarOwnership" Relationship="Self.FK_CarOwnership_VIN" FromRole="VIN" ToRole="CarOwnership" />
+          <NavigationProperty Name="Cars" Relationship="Self.FK_Cars_VIN" FromRole="VIN" ToRole="Cars" />
+        </EntityType>
+        <Association Name="FK_CarOwner_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="CarOwner" Type="Self.CarOwner" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="CarOwner">
+              <PropertyRef Name="Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarOwnership_CarOwner">
+          <End Role="CarOwner" Type="Self.CarOwner" Multiplicity="1" />
+          <End Role="CarOwnership" Type="Self.CarOwnership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarOwner">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CarOwnership">
+              <PropertyRef Name="OwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarOwnership_VIN">
+          <End Role="VIN" Type="Self.VIN" Multiplicity="1" />
+          <End Role="CarOwnership" Type="Self.CarOwnership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VIN">
+              <PropertyRef Name="VIN1" />
+            </Principal>
+            <Dependent Role="CarOwnership">
+              <PropertyRef Name="VIN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cars_Colours">
+          <End Role="Colours" Type="Self.Colours" Multiplicity="1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colours">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="Color" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cars_VIN">
+          <End Role="VIN" Type="Self.VIN" Multiplicity="1" />
+          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VIN">
+              <PropertyRef Name="VIN1" />
+            </Principal>
+            <Dependent Role="Cars">
+              <PropertyRef Name="VIN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceHistory_Cars">
+          <End Role="Cars" Type="Self.Cars" Multiplicity="1" />
+          <End Role="ServiceHistory" Type="Self.ServiceHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cars">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceHistory">
+              <PropertyRef Name="CarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RegistrationDictionary_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="1" />
+          <End Role="RegistrationDictionary" Type="Self.RegistrationDictionary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="RegistrationDictionary">
+              <PropertyRef Name="Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceStations_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="ServiceStations" Type="Self.ServiceStations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Name" />
+            </Principal>
+            <Dependent Role="ServiceStations">
+              <PropertyRef Name="Country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceStations_RegistrationDictionary">
+          <End Role="RegistrationDictionary" Type="Self.RegistrationDictionary" Multiplicity="1" />
+          <End Role="ServiceStations" Type="Self.ServiceStations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegistrationDictionary">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceStations">
+              <PropertyRef Name="RegistrationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceHistoryService_ServiceDictionary">
+          <End Role="ServiceDictionary" Type="Self.ServiceDictionary" Multiplicity="1" />
+          <End Role="ServiceHistoryService" Type="Self.ServiceHistoryService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceDictionary">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceHistoryService">
+              <PropertyRef Name="ServiceDictionaryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceHistoryService_ServiceHistory">
+          <End Role="ServiceHistory" Type="Self.ServiceHistory" Multiplicity="1" />
+          <End Role="ServiceHistoryService" Type="Self.ServiceHistoryService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceHistory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceHistoryService">
+              <PropertyRef Name="ServieHistoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ServiceHistoryContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CarOwner" EntityType="Self.CarOwner" />
+          <EntitySet Name="CarOwnership" EntityType="Self.CarOwnership" />
+          <EntitySet Name="Cars" EntityType="Self.Cars" />
+          <EntitySet Name="Colours" EntityType="Self.Colours" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" />
+          <EntitySet Name="RegistrationDictionary" EntityType="Self.RegistrationDictionary" />
+          <EntitySet Name="ServiceDictionary" EntityType="Self.ServiceDictionary" />
+          <EntitySet Name="ServiceHistory" EntityType="Self.ServiceHistory" />
+          <EntitySet Name="ServiceHistoryService" EntityType="Self.ServiceHistoryService" />
+          <EntitySet Name="ServiceStations" EntityType="Self.ServiceStations" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="VIN" EntityType="Self.VIN" />
+          <AssociationSet Name="FK_CarOwner_Countries" Association="Self.FK_CarOwner_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="CarOwner" EntitySet="CarOwner" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarOwnership_CarOwner" Association="Self.FK_CarOwnership_CarOwner">
+            <End Role="CarOwner" EntitySet="CarOwner" />
+            <End Role="CarOwnership" EntitySet="CarOwnership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarOwnership_VIN" Association="Self.FK_CarOwnership_VIN">
+            <End Role="VIN" EntitySet="VIN" />
+            <End Role="CarOwnership" EntitySet="CarOwnership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cars_Colours" Association="Self.FK_Cars_Colours">
+            <End Role="Colours" EntitySet="Colours" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cars_VIN" Association="Self.FK_Cars_VIN">
+            <End Role="VIN" EntitySet="VIN" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceHistory_Cars" Association="Self.FK_ServiceHistory_Cars">
+            <End Role="Cars" EntitySet="Cars" />
+            <End Role="ServiceHistory" EntitySet="ServiceHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RegistrationDictionary_Countries" Association="Self.FK_RegistrationDictionary_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="RegistrationDictionary" EntitySet="RegistrationDictionary" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceStations_Countries" Association="Self.FK_ServiceStations_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="ServiceStations" EntitySet="ServiceStations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceStations_RegistrationDictionary" Association="Self.FK_ServiceStations_RegistrationDictionary">
+            <End Role="RegistrationDictionary" EntitySet="RegistrationDictionary" />
+            <End Role="ServiceStations" EntitySet="ServiceStations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceHistoryService_ServiceDictionary" Association="Self.FK_ServiceHistoryService_ServiceDictionary">
+            <End Role="ServiceDictionary" EntitySet="ServiceDictionary" />
+            <End Role="ServiceHistoryService" EntitySet="ServiceHistoryService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceHistoryService_ServiceHistory" Association="Self.FK_ServiceHistoryService_ServiceHistory">
+            <End Role="ServiceHistory" EntitySet="ServiceHistory" />
+            <End Role="ServiceHistoryService" EntitySet="ServiceHistoryService" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SHistoryModelStoreContainer" CdmEntityContainer="ServiceHistoryContext">
+          <EntitySetMapping Name="CarOwner">
+            <EntityTypeMapping TypeName="SHistoryModel.CarOwner">
+              <MappingFragment StoreEntitySet="CarOwner">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="insDate" ColumnName="insDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarOwnership">
+            <EntityTypeMapping TypeName="SHistoryModel.CarOwnership">
+              <MappingFragment StoreEntitySet="CarOwnership">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CarId" ColumnName="CarId" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="VIN" ColumnName="VIN" />
+                <ScalarProperty Name="insDate" ColumnName="insDate" />
+                <ScalarProperty Name="OwnerFrom" ColumnName="OwnerFrom" />
+                <ScalarProperty Name="OwnerTo" ColumnName="OwnerTo" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cars">
+            <EntityTypeMapping TypeName="SHistoryModel.Cars">
+              <MappingFragment StoreEntitySet="Cars">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VIN" ColumnName="VIN" />
+                <ScalarProperty Name="LicencePlate" ColumnName="LicencePlate" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="CurrentOdometer" ColumnName="CurrentOdometer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Colours">
+            <EntityTypeMapping TypeName="SHistoryModel.Colours">
+              <MappingFragment StoreEntitySet="Colours">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="SHistoryModel.Countries">
+              <MappingFragment StoreEntitySet="Countries">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PhonePreffix" ColumnName="PhonePreffix" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegistrationDictionary">
+            <EntityTypeMapping TypeName="SHistoryModel.RegistrationDictionary">
+              <MappingFragment StoreEntitySet="RegistrationDictionary">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RegistrationName" ColumnName="RegistrationName" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceDictionary">
+            <EntityTypeMapping TypeName="SHistoryModel.ServiceDictionary">
+              <MappingFragment StoreEntitySet="ServiceDictionary">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceHistory">
+            <EntityTypeMapping TypeName="SHistoryModel.ServiceHistory">
+              <MappingFragment StoreEntitySet="ServiceHistory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CarId" ColumnName="CarId" />
+                <ScalarProperty Name="LicencePlate" ColumnName="LicencePlate" />
+                <ScalarProperty Name="Odometer" ColumnName="Odometer" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PlaceId" ColumnName="PlaceId" />
+                <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceHistoryService">
+            <EntityTypeMapping TypeName="SHistoryModel.ServiceHistoryService">
+              <MappingFragment StoreEntitySet="ServiceHistoryService">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ServiceDictionaryId" ColumnName="ServiceDictionaryId" />
+                <ScalarProperty Name="ServieHistoryId" ColumnName="ServieHistoryId" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="InsDate" ColumnName="InsDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceStations">
+            <EntityTypeMapping TypeName="SHistoryModel.ServiceStations">
+              <MappingFragment StoreEntitySet="ServiceStations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="BuildingNo" ColumnName="BuildingNo" />
+                <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+                <ScalarProperty Name="insDate" ColumnName="insDate" />
+                <ScalarProperty Name="RegistrationId" ColumnName="RegistrationId" />
+                <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SHistoryModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VIN">
+            <EntityTypeMapping TypeName="SHistoryModel.VIN">
+              <MappingFragment StoreEntitySet="VIN">
+                <ScalarProperty Name="VIN1" ColumnName="VIN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
