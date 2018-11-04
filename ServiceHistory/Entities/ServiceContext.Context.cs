@@ -26,6 +26,7 @@ namespace Entities
         }
     
         public virtual DbSet<Brands> Brands { get; set; }
+        public virtual DbSet<CarHistory> CarHistory { get; set; }
         public virtual DbSet<CarOwner> CarOwner { get; set; }
         public virtual DbSet<CarOwnership> CarOwnership { get; set; }
         public virtual DbSet<Cars> Cars { get; set; }

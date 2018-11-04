@@ -11,6 +11,21 @@
           </Key>
           <Property Name="Name" Type="nvarchar" MaxLength="45" Nullable="false" />
         </EntityType>
+        <EntityType Name="CarHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="LastOwnerId" Type="int" Nullable="false" />
+          <Property Name="VIN" Type="nvarchar" MaxLength="17" Nullable="false" />
+          <Property Name="OwnerFrom" Type="datetime" Nullable="false" />
+          <Property Name="OwnerTo" Type="datetime" Nullable="false" />
+          <Property Name="IsSold" Type="bit" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="sPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="LastLicencePlate" Type="nvarchar" MaxLength="15" />
+          <Property Name="LastOdometer" Type="int" />
+        </EntityType>
         <EntityType Name="CarOwner">
           <Key>
             <PropertyRef Name="Id" />
@@ -35,6 +50,7 @@
           <Property Name="OwnerFrom" Type="datetime" Nullable="false" />
           <Property Name="OwnerTo" Type="datetime" />
           <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="UpdatedOdometer" Type="int" />
         </EntityType>
         <EntityType Name="Cars">
           <Key>
@@ -43,9 +59,8 @@
           <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="VIN" Type="nvarchar" MaxLength="17" Nullable="false" />
           <Property Name="LicencePlate" Type="nvarchar" MaxLength="15" />
-          <Property Name="OwnerId" Type="int" Nullable="false" />
           <Property Name="Color" Type="nvarchar" MaxLength="30" Nullable="false" />
-          <Property Name="CurrentOdometer" Type="int" Nullable="false" />
+          <Property Name="StartOdometer" Type="int" Nullable="false" />
           <Property Name="Brand" Type="nvarchar" MaxLength="45" />
           <Property Name="Model" Type="nvarchar" MaxLength="50" />
           <Property Name="FirstRegistration" Type="datetime" />
@@ -101,8 +116,9 @@
           <Property Name="Odometer" Type="int" Nullable="false" />
           <Property Name="InsDate" Type="datetime" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
-          <Property Name="PlaceId" Type="int" Nullable="false" />
+          <Property Name="ServiceStationId" Type="int" Nullable="false" />
           <Property Name="ServiceDate" Type="datetime" />
+          <Property Name="VIN" Type="nvarchar" MaxLength="17" />
         </EntityType>
         <EntityType Name="ServiceHistoryService">
           <Key>
@@ -127,6 +143,8 @@
           <Property Name="insDate" Type="datetime" />
           <Property Name="RegistrationId" Type="int" Nullable="false" />
           <Property Name="RegistrationNo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PhoneNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="MobilePhoneNo" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -144,6 +162,18 @@
           </Key>
           <Property Name="VIN" Type="nvarchar" MaxLength="17" Nullable="false" />
         </EntityType>
+        <Association Name="FK_CarHistory_VIN">
+          <End Role="VIN" Type="Self.VIN" Multiplicity="1" />
+          <End Role="CarHistory" Type="Self.CarHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VIN">
+              <PropertyRef Name="VIN" />
+            </Principal>
+            <Dependent Role="CarHistory">
+              <PropertyRef Name="VIN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CarOwner_Countries1">
           <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
           <End Role="CarOwner" Type="Self.CarOwner" Multiplicity="*" />
@@ -216,18 +246,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Cars_VIN">
-          <End Role="VIN" Type="Self.VIN" Multiplicity="1" />
-          <End Role="Cars" Type="Self.Cars" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VIN">
-              <PropertyRef Name="VIN" />
-            </Principal>
-            <Dependent Role="Cars">
-              <PropertyRef Name="VIN" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_RegistrationDictionary_Countries">
           <End Role="Countries" Type="Self.Countries" Multiplicity="1" />
           <End Role="RegistrationDictionary" Type="Self.RegistrationDictionary" Multiplicity="*" />
@@ -249,6 +267,18 @@
             </Principal>
             <Dependent Role="ServiceHistory">
               <PropertyRef Name="CarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceHistory_ServiceStations">
+          <End Role="ServiceStations" Type="Self.ServiceStations" Multiplicity="1" />
+          <End Role="ServiceHistory" Type="Self.ServiceHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceStations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceHistory">
+              <PropertyRef Name="ServiceStationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -302,6 +332,7 @@
         </Association>
         <EntityContainer Name="SHistoryModelStoreContainer">
           <EntitySet Name="Brands" EntityType="Self.Brands" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarHistory" EntityType="Self.CarHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CarOwner" EntityType="Self.CarOwner" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CarOwnership" EntityType="Self.CarOwnership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cars" EntityType="Self.Cars" Schema="dbo" store:Type="Tables" />
@@ -315,6 +346,10 @@
           <EntitySet Name="ServiceStations" EntityType="Self.ServiceStations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VIN" EntityType="Self.VIN" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CarHistory_VIN" Association="Self.FK_CarHistory_VIN">
+            <End Role="VIN" EntitySet="VIN" />
+            <End Role="CarHistory" EntitySet="CarHistory" />
+          </AssociationSet>
           <AssociationSet Name="FK_CarOwner_Countries1" Association="Self.FK_CarOwner_Countries1">
             <End Role="Countries" EntitySet="Countries" />
             <End Role="CarOwner" EntitySet="CarOwner" />
@@ -339,16 +374,16 @@
             <End Role="Colours" EntitySet="Colours" />
             <End Role="Cars" EntitySet="Cars" />
           </AssociationSet>
-          <AssociationSet Name="FK_Cars_VIN" Association="Self.FK_Cars_VIN">
-            <End Role="VIN" EntitySet="VIN" />
-            <End Role="Cars" EntitySet="Cars" />
-          </AssociationSet>
           <AssociationSet Name="FK_RegistrationDictionary_Countries" Association="Self.FK_RegistrationDictionary_Countries">
             <End Role="Countries" EntitySet="Countries" />
             <End Role="RegistrationDictionary" EntitySet="RegistrationDictionary" />
           </AssociationSet>
           <AssociationSet Name="FK_ServiceHistory_Cars" Association="Self.FK_ServiceHistory_Cars">
             <End Role="Cars" EntitySet="Cars" />
+            <End Role="ServiceHistory" EntitySet="ServiceHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceHistory_ServiceStations" Association="Self.FK_ServiceHistory_ServiceStations">
+            <End Role="ServiceStations" EntitySet="ServiceStations" />
             <End Role="ServiceHistory" EntitySet="ServiceHistory" />
           </AssociationSet>
           <AssociationSet Name="FK_ServiceHistoryService_ServiceDictionary" Association="Self.FK_ServiceHistoryService_ServiceDictionary">
@@ -374,6 +409,7 @@
       <Schema Namespace="SHistoryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ServiceHistoryContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Brands" EntityType="SHistoryModel.Brands" />
+          <EntitySet Name="CarHistory" EntityType="SHistoryModel.CarHistory" />
           <EntitySet Name="CarOwner" EntityType="SHistoryModel.CarOwner" />
           <EntitySet Name="CarOwnership" EntityType="SHistoryModel.CarOwnership" />
           <EntitySet Name="Cars" EntityType="SHistoryModel.Cars" />
@@ -390,6 +426,10 @@
           <AssociationSet Name="FK_Cars_Brands" Association="SHistoryModel.FK_Cars_Brands">
             <End Role="Brands" EntitySet="Brands" />
             <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CarHistory_VIN" Association="SHistoryModel.FK_CarHistory_VIN">
+            <End Role="VIN" EntitySet="VIN" />
+            <End Role="CarHistory" EntitySet="CarHistory" />
           </AssociationSet>
           <AssociationSet Name="FK_CarOwner_Countries1" Association="SHistoryModel.FK_CarOwner_Countries1">
             <End Role="Countries" EntitySet="Countries" />
@@ -409,10 +449,6 @@
           </AssociationSet>
           <AssociationSet Name="FK_Cars_Colours" Association="SHistoryModel.FK_Cars_Colours">
             <End Role="Colours" EntitySet="Colours" />
-            <End Role="Cars" EntitySet="Cars" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Cars_VIN" Association="SHistoryModel.FK_Cars_VIN">
-            <End Role="VIN" EntitySet="VIN" />
             <End Role="Cars" EntitySet="Cars" />
           </AssociationSet>
           <AssociationSet Name="FK_ServiceHistory_Cars" Association="SHistoryModel.FK_ServiceHistory_Cars">
@@ -435,6 +471,10 @@
             <End Role="ServiceDictionary" EntitySet="ServiceDictionary" />
             <End Role="ServiceHistoryService" EntitySet="ServiceHistoryService" />
           </AssociationSet>
+          <AssociationSet Name="FK_ServiceHistory_ServiceStations" Association="SHistoryModel.FK_ServiceHistory_ServiceStations">
+            <End Role="ServiceStations" EntitySet="ServiceStations" />
+            <End Role="ServiceHistory" EntitySet="ServiceHistory" />
+          </AssociationSet>
           <AssociationSet Name="FK_ServiceHistoryService_ServiceHistory" Association="SHistoryModel.FK_ServiceHistoryService_ServiceHistory">
             <End Role="ServiceHistory" EntitySet="ServiceHistory" />
             <End Role="ServiceHistoryService" EntitySet="ServiceHistoryService" />
@@ -446,6 +486,22 @@
           </Key>
           <Property Name="Name" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Cars" Relationship="SHistoryModel.FK_Cars_Brands" FromRole="Brands" ToRole="Cars" />
+        </EntityType>
+        <EntityType Name="CarHistory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="LastOwnerId" Type="Int32" Nullable="false" />
+          <Property Name="VIN" Type="String" Nullable="false" MaxLength="17" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerFrom" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OwnerTo" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsSold" Type="Boolean" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="sPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="LastLicencePlate" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="LastOdometer" Type="Int32" />
+          <NavigationProperty Name="VIN1" Relationship="SHistoryModel.FK_CarHistory_VIN" FromRole="CarHistory" ToRole="VIN" />
         </EntityType>
         <EntityType Name="CarOwner">
           <Key>
@@ -473,6 +529,7 @@
           <Property Name="OwnerFrom" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="OwnerTo" Type="DateTime" Precision="3" />
           <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UpdatedOdometer" Type="Int32" />
           <NavigationProperty Name="CarOwner" Relationship="SHistoryModel.FK_CarOwnership_CarOwner" FromRole="CarOwnership" ToRole="CarOwner" />
           <NavigationProperty Name="VIN1" Relationship="SHistoryModel.FK_CarOwnership_VIN" FromRole="CarOwnership" ToRole="VIN" />
         </EntityType>
@@ -483,9 +540,8 @@
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="VIN" Type="String" Nullable="false" MaxLength="17" FixedLength="false" Unicode="true" />
           <Property Name="LicencePlate" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="OwnerId" Type="Int32" Nullable="false" />
           <Property Name="Color" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="CurrentOdometer" Type="Int32" Nullable="false" />
+          <Property Name="StartOdometer" Type="Int32" Nullable="false" />
           <Property Name="Brand" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
           <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FirstRegistration" Type="DateTime" Precision="3" />
@@ -497,7 +553,6 @@
           <NavigationProperty Name="Brands" Relationship="SHistoryModel.FK_Cars_Brands" FromRole="Cars" ToRole="Brands" />
           <NavigationProperty Name="CarType" Relationship="SHistoryModel.FK_Cars_CarType" FromRole="Cars" ToRole="CarType" />
           <NavigationProperty Name="Colours" Relationship="SHistoryModel.FK_Cars_Colours" FromRole="Cars" ToRole="Colours" />
-          <NavigationProperty Name="VIN1" Relationship="SHistoryModel.FK_Cars_VIN" FromRole="Cars" ToRole="VIN" />
           <NavigationProperty Name="ServiceHistory" Relationship="SHistoryModel.FK_ServiceHistory_Cars" FromRole="Cars" ToRole="ServiceHistory" />
         </EntityType>
         <EntityType Name="CarType">
@@ -554,9 +609,11 @@
           <Property Name="Odometer" Type="Int32" Nullable="false" />
           <Property Name="InsDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PlaceId" Type="Int32" Nullable="false" />
+          <Property Name="ServiceStationId" Type="Int32" Nullable="false" />
           <Property Name="ServiceDate" Type="DateTime" Precision="3" />
+          <Property Name="VIN" Type="String" MaxLength="17" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Cars" Relationship="SHistoryModel.FK_ServiceHistory_Cars" FromRole="ServiceHistory" ToRole="Cars" />
+          <NavigationProperty Name="ServiceStations" Relationship="SHistoryModel.FK_ServiceHistory_ServiceStations" FromRole="ServiceHistory" ToRole="ServiceStations" />
           <NavigationProperty Name="ServiceHistoryService" Relationship="SHistoryModel.FK_ServiceHistoryService_ServiceHistory" FromRole="ServiceHistory" ToRole="ServiceHistoryService" />
         </EntityType>
         <EntityType Name="ServiceHistoryService">
@@ -584,8 +641,11 @@
           <Property Name="insDate" Type="DateTime" Precision="3" />
           <Property Name="RegistrationId" Type="Int32" Nullable="false" />
           <Property Name="RegistrationNo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="MobilePhoneNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Countries" Relationship="SHistoryModel.FK_ServiceStations_Countries" FromRole="ServiceStations" ToRole="Countries" />
           <NavigationProperty Name="RegistrationDictionary" Relationship="SHistoryModel.FK_ServiceStations_RegistrationDictionary" FromRole="ServiceStations" ToRole="RegistrationDictionary" />
+          <NavigationProperty Name="ServiceHistory" Relationship="SHistoryModel.FK_ServiceHistory_ServiceStations" FromRole="ServiceStations" ToRole="ServiceHistory" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -602,8 +662,8 @@
             <PropertyRef Name="VIN1" />
           </Key>
           <Property Name="VIN1" Type="String" Nullable="false" MaxLength="17" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CarHistory" Relationship="SHistoryModel.FK_CarHistory_VIN" FromRole="VIN" ToRole="CarHistory" />
           <NavigationProperty Name="CarOwnership" Relationship="SHistoryModel.FK_CarOwnership_VIN" FromRole="VIN" ToRole="CarOwnership" />
-          <NavigationProperty Name="Cars" Relationship="SHistoryModel.FK_Cars_VIN" FromRole="VIN" ToRole="Cars" />
         </EntityType>
         <Association Name="FK_Cars_Brands">
           <End Type="SHistoryModel.Brands" Role="Brands" Multiplicity="0..1" />
@@ -614,6 +674,18 @@
             </Principal>
             <Dependent Role="Cars">
               <PropertyRef Name="Brand" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CarHistory_VIN">
+          <End Type="SHistoryModel.VIN" Role="VIN" Multiplicity="1" />
+          <End Type="SHistoryModel.CarHistory" Role="CarHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VIN">
+              <PropertyRef Name="VIN1" />
+            </Principal>
+            <Dependent Role="CarHistory">
+              <PropertyRef Name="VIN" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -677,18 +749,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Cars_VIN">
-          <End Type="SHistoryModel.VIN" Role="VIN" Multiplicity="1" />
-          <End Type="SHistoryModel.Cars" Role="Cars" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VIN">
-              <PropertyRef Name="VIN1" />
-            </Principal>
-            <Dependent Role="Cars">
-              <PropertyRef Name="VIN" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_ServiceHistory_Cars">
           <End Type="SHistoryModel.Cars" Role="Cars" Multiplicity="1" />
           <End Type="SHistoryModel.ServiceHistory" Role="ServiceHistory" Multiplicity="*" />
@@ -749,6 +809,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ServiceHistory_ServiceStations">
+          <End Type="SHistoryModel.ServiceStations" Role="ServiceStations" Multiplicity="1" />
+          <End Type="SHistoryModel.ServiceHistory" Role="ServiceHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceStations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceHistory">
+              <PropertyRef Name="ServiceStationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ServiceHistoryService_ServiceHistory">
           <End Type="SHistoryModel.ServiceHistory" Role="ServiceHistory" Multiplicity="1" />
           <End Type="SHistoryModel.ServiceHistoryService" Role="ServiceHistoryService" Multiplicity="*" />
@@ -761,7 +833,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -771,6 +843,22 @@
             <EntityTypeMapping TypeName="SHistoryModel.Brands">
               <MappingFragment StoreEntitySet="Brands">
                 <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarHistory">
+            <EntityTypeMapping TypeName="SHistoryModel.CarHistory">
+              <MappingFragment StoreEntitySet="CarHistory">
+                <ScalarProperty Name="LastOdometer" ColumnName="LastOdometer" />
+                <ScalarProperty Name="LastLicencePlate" ColumnName="LastLicencePlate" />
+                <ScalarProperty Name="sPrice" ColumnName="sPrice" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsSold" ColumnName="IsSold" />
+                <ScalarProperty Name="OwnerTo" ColumnName="OwnerTo" />
+                <ScalarProperty Name="OwnerFrom" ColumnName="OwnerFrom" />
+                <ScalarProperty Name="VIN" ColumnName="VIN" />
+                <ScalarProperty Name="LastOwnerId" ColumnName="LastOwnerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -791,6 +879,7 @@
           <EntitySetMapping Name="CarOwnership">
             <EntityTypeMapping TypeName="SHistoryModel.CarOwnership">
               <MappingFragment StoreEntitySet="CarOwnership">
+                <ScalarProperty Name="UpdatedOdometer" ColumnName="UpdatedOdometer" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="OwnerTo" ColumnName="OwnerTo" />
                 <ScalarProperty Name="OwnerFrom" ColumnName="OwnerFrom" />
@@ -812,9 +901,8 @@
                 <ScalarProperty Name="FirstRegistration" ColumnName="FirstRegistration" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
                 <ScalarProperty Name="Brand" ColumnName="Brand" />
-                <ScalarProperty Name="CurrentOdometer" ColumnName="CurrentOdometer" />
+                <ScalarProperty Name="StartOdometer" ColumnName="StartOdometer" />
                 <ScalarProperty Name="Color" ColumnName="Color" />
-                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
                 <ScalarProperty Name="LicencePlate" ColumnName="LicencePlate" />
                 <ScalarProperty Name="VIN" ColumnName="VIN" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
@@ -865,8 +953,9 @@
           <EntitySetMapping Name="ServiceHistory">
             <EntityTypeMapping TypeName="SHistoryModel.ServiceHistory">
               <MappingFragment StoreEntitySet="ServiceHistory">
+                <ScalarProperty Name="VIN" ColumnName="VIN" />
                 <ScalarProperty Name="ServiceDate" ColumnName="ServiceDate" />
-                <ScalarProperty Name="PlaceId" ColumnName="PlaceId" />
+                <ScalarProperty Name="ServiceStationId" ColumnName="ServiceStationId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="InsDate" ColumnName="InsDate" />
                 <ScalarProperty Name="Odometer" ColumnName="Odometer" />
@@ -890,6 +979,8 @@
           <EntitySetMapping Name="ServiceStations">
             <EntityTypeMapping TypeName="SHistoryModel.ServiceStations">
               <MappingFragment StoreEntitySet="ServiceStations">
+                <ScalarProperty Name="MobilePhoneNo" ColumnName="MobilePhoneNo" />
+                <ScalarProperty Name="PhoneNo" ColumnName="PhoneNo" />
                 <ScalarProperty Name="RegistrationNo" ColumnName="RegistrationNo" />
                 <ScalarProperty Name="RegistrationId" ColumnName="RegistrationId" />
                 <ScalarProperty Name="insDate" ColumnName="insDate" />

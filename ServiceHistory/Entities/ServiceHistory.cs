@@ -26,10 +26,12 @@ namespace Entities
         public int Odometer { get; set; }
         public System.DateTime InsDate { get; set; }
         public string Description { get; set; }
-        public int PlaceId { get; set; }
+        public int ServiceStationId { get; set; }
         public Nullable<System.DateTime> ServiceDate { get; set; }
+        public string VIN { get; set; }
     
         public virtual Cars Cars { get; set; }
+        public virtual ServiceStations ServiceStations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ServiceHistoryService> ServiceHistoryService { get; set; }
     }

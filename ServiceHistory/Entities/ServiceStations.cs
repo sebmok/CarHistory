@@ -14,6 +14,12 @@ namespace Entities
     
     public partial class ServiceStations
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ServiceStations()
+        {
+            this.ServiceHistory = new HashSet<ServiceHistory>();
+        }
+    
         public int Id { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
@@ -23,8 +29,12 @@ namespace Entities
         public Nullable<System.DateTime> insDate { get; set; }
         public int RegistrationId { get; set; }
         public string RegistrationNo { get; set; }
+        public string PhoneNo { get; set; }
+        public string MobilePhoneNo { get; set; }
     
         public virtual Countries Countries { get; set; }
         public virtual RegistrationDictionary RegistrationDictionary { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ServiceHistory> ServiceHistory { get; set; }
     }
 }

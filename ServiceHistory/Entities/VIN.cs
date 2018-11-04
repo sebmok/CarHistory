@@ -17,15 +17,15 @@ namespace Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public VIN()
         {
+            this.CarHistory = new HashSet<CarHistory>();
             this.CarOwnership = new HashSet<CarOwnership>();
-            this.Cars = new HashSet<Cars>();
         }
     
         public string VIN1 { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CarOwnership> CarOwnership { get; set; }
+        public virtual ICollection<CarHistory> CarHistory { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Cars> Cars { get; set; }
+        public virtual ICollection<CarOwnership> CarOwnership { get; set; }
     }
 }

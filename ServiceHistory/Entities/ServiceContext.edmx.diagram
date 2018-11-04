@@ -5,32 +5,34 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="f04ef6442f4c4b5d8e64f6588a0417b7" Name="Diagram1">
-        <EntityTypeShape EntityType="SHistoryModel.Brands" Width="1.5" PointX="0.75" PointY="13.75" />
-        <EntityTypeShape EntityType="SHistoryModel.CarOwner" Width="1.5" PointX="3.75" PointY="0.75" />
-        <EntityTypeShape EntityType="SHistoryModel.CarOwnership" Width="1.5" PointX="6" PointY="5.875" />
-        <EntityTypeShape EntityType="SHistoryModel.Cars" Width="1.5" PointX="3" PointY="4.875" />
-        <EntityTypeShape EntityType="SHistoryModel.CarType" Width="1.5" PointX="0.75" PointY="11.375" />
-        <EntityTypeShape EntityType="SHistoryModel.Colours" Width="1.5" PointX="0.75" PointY="9.25" />
-        <EntityTypeShape EntityType="SHistoryModel.Countries" Width="1.5" PointX="1.5" PointY="2" />
-        <EntityTypeShape EntityType="SHistoryModel.RegistrationDictionary" Width="1.5" PointX="3.75" PointY="17.625" />
-        <EntityTypeShape EntityType="SHistoryModel.ServiceDictionary" Width="1.5" PointX="5.25" PointY="14.375" />
-        <EntityTypeShape EntityType="SHistoryModel.ServiceHistory" Width="1.5" PointX="5.25" PointY="9.75" />
-        <EntityTypeShape EntityType="SHistoryModel.ServiceHistoryService" Width="1.5" PointX="7.5" PointY="10" />
-        <EntityTypeShape EntityType="SHistoryModel.ServiceStations" Width="1.5" PointX="8" PointY="13.25" />
-        <EntityTypeShape EntityType="SHistoryModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="2.625" />
-        <EntityTypeShape EntityType="SHistoryModel.VIN" Width="1.5" PointX="0.75" PointY="6.375" />
+        <EntityTypeShape EntityType="SHistoryModel.Brands" Width="1.5" PointX="0.75" PointY="6.875" />
+        <EntityTypeShape EntityType="SHistoryModel.CarHistory" Width="1.5" PointX="10" PointY="13" />
+        <EntityTypeShape EntityType="SHistoryModel.CarOwner" Width="1.5" PointX="7.75" PointY="13.5" />
+        <EntityTypeShape EntityType="SHistoryModel.CarOwnership" Width="1.5" PointX="10" PointY="8.5" />
+        <EntityTypeShape EntityType="SHistoryModel.Cars" Width="1.5" PointX="3" PointY="2.375" />
+        <EntityTypeShape EntityType="SHistoryModel.CarType" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="SHistoryModel.Colours" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="SHistoryModel.Countries" Width="1.5" PointX="0.75" PointY="11.875" />
+        <EntityTypeShape EntityType="SHistoryModel.RegistrationDictionary" Width="1.5" PointX="0.75" PointY="9.125" />
+        <EntityTypeShape EntityType="SHistoryModel.ServiceDictionary" Width="1.5" PointX="5.25" PointY="8.625" />
+        <EntityTypeShape EntityType="SHistoryModel.ServiceHistory" Width="1.5" PointX="5.25" PointY="2.875" />
+        <EntityTypeShape EntityType="SHistoryModel.ServiceHistoryService" Width="1.5" PointX="7.5" PointY="3.375" />
+        <EntityTypeShape EntityType="SHistoryModel.ServiceStations" Width="1.5" PointX="3" PointY="9.625" />
+        <EntityTypeShape EntityType="SHistoryModel.sysdiagrams" Width="1.5" PointX="9.75" PointY="2.125" />
+        <EntityTypeShape EntityType="SHistoryModel.VIN" Width="1.5" PointX="7.75" PointY="10.125" />
         <AssociationConnector Association="SHistoryModel.FK_Cars_Brands" />
+        <AssociationConnector Association="SHistoryModel.FK_CarHistory_VIN" />
         <AssociationConnector Association="SHistoryModel.FK_CarOwner_Countries1" />
         <AssociationConnector Association="SHistoryModel.FK_CarOwnership_CarOwner" />
         <AssociationConnector Association="SHistoryModel.FK_CarOwnership_VIN" />
         <AssociationConnector Association="SHistoryModel.FK_Cars_CarType" />
         <AssociationConnector Association="SHistoryModel.FK_Cars_Colours" />
-        <AssociationConnector Association="SHistoryModel.FK_Cars_VIN" />
         <AssociationConnector Association="SHistoryModel.FK_ServiceHistory_Cars" />
         <AssociationConnector Association="SHistoryModel.FK_RegistrationDictionary_Countries" />
         <AssociationConnector Association="SHistoryModel.FK_ServiceStations_Countries" />
         <AssociationConnector Association="SHistoryModel.FK_ServiceStations_RegistrationDictionary" />
         <AssociationConnector Association="SHistoryModel.FK_ServiceHistoryService_ServiceDictionary" />
+        <AssociationConnector Association="SHistoryModel.FK_ServiceHistory_ServiceStations" />
         <AssociationConnector Association="SHistoryModel.FK_ServiceHistoryService_ServiceHistory" />
       </Diagram>
     </edmx:Diagrams>

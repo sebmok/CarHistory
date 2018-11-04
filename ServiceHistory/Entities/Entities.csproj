@@ -53,6 +53,9 @@
     <Compile Include="Brands.cs">
       <DependentUpon>ServiceContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="CarHistory.cs">
+      <DependentUpon>ServiceContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="CarOwner.cs">
       <DependentUpon>ServiceContext.tt</DependentUpon>
     </Compile>

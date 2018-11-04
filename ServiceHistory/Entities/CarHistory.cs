@@ -12,18 +12,19 @@ namespace Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class CarOwnership
+    public partial class CarHistory
     {
-        public long Id { get; set; }
-        public int OwnerId { get; set; }
+        public int Id { get; set; }
+        public int LastOwnerId { get; set; }
         public string VIN { get; set; }
-        public System.DateTime insDate { get; set; }
         public System.DateTime OwnerFrom { get; set; }
-        public Nullable<System.DateTime> OwnerTo { get; set; }
-        public Nullable<decimal> Price { get; set; }
-        public Nullable<int> UpdatedOdometer { get; set; }
+        public System.DateTime OwnerTo { get; set; }
+        public Nullable<bool> IsSold { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
+        public Nullable<decimal> sPrice { get; set; }
+        public string LastLicencePlate { get; set; }
+        public Nullable<int> LastOdometer { get; set; }
     
-        public virtual CarOwner CarOwner { get; set; }
         public virtual VIN VIN1 { get; set; }
     }
 }
