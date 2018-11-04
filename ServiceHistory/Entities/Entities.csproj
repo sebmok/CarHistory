@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Brands.cs">
+      <DependentUpon>ServiceContext.tt</DependentUpon>
+    </Compile>
     <Compile Include="CarOwner.cs">
       <DependentUpon>ServiceContext.tt</DependentUpon>
     </Compile>
@@ -57,6 +60,9 @@
       <DependentUpon>ServiceContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Cars.cs">
+      <DependentUpon>ServiceContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CarType.cs">
       <DependentUpon>ServiceContext.tt</DependentUpon>
     </Compile>
     <Compile Include="Colours.cs">

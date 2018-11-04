@@ -15,7 +15,6 @@ namespace Entities
     public partial class CarOwnership
     {
         public long Id { get; set; }
-        public long CarId { get; set; }
         public int OwnerId { get; set; }
         public string VIN { get; set; }
         public System.DateTime insDate { get; set; }

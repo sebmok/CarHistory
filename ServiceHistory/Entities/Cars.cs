@@ -26,7 +26,17 @@ namespace Entities
         public int OwnerId { get; set; }
         public string Color { get; set; }
         public int CurrentOdometer { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
+        public Nullable<System.DateTime> FirstRegistration { get; set; }
+        public Nullable<System.DateTime> ProductionDate { get; set; }
+        public Nullable<decimal> PowerKM { get; set; }
+        public Nullable<decimal> PowerKW { get; set; }
+        public Nullable<int> SeatsNo { get; set; }
+        public Nullable<short> CarTypeId { get; set; }
     
+        public virtual Brands Brands { get; set; }
+        public virtual CarType CarType { get; set; }
         public virtual Colours Colours { get; set; }
         public virtual VIN VIN1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

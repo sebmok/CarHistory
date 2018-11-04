@@ -25,9 +25,11 @@ namespace Entities
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Brands> Brands { get; set; }
         public virtual DbSet<CarOwner> CarOwner { get; set; }
         public virtual DbSet<CarOwnership> CarOwnership { get; set; }
         public virtual DbSet<Cars> Cars { get; set; }
+        public virtual DbSet<CarType> CarType { get; set; }
         public virtual DbSet<Colours> Colours { get; set; }
         public virtual DbSet<Countries> Countries { get; set; }
         public virtual DbSet<RegistrationDictionary> RegistrationDictionary { get; set; }

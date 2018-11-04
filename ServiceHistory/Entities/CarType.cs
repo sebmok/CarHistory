@@ -12,25 +12,18 @@ namespace Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class CarOwner
+    public partial class CarType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CarOwner()
+        public CarType()
         {
-            this.CarOwnership = new HashSet<CarOwnership>();
+            this.Cars = new HashSet<Cars>();
         }
     
-        public int Id { get; set; }
-        public string UserId { get; set; }
+        public short Id { get; set; }
         public string Name { get; set; }
-        public string Surname { get; set; }
-        public string PhoneNo { get; set; }
-        public string Country { get; set; }
-        public Nullable<System.DateTime> insDate { get; set; }
-        public Nullable<System.DateTime> updDate { get; set; }
     
-        public virtual Countries Countries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CarOwnership> CarOwnership { get; set; }
+        public virtual ICollection<Cars> Cars { get; set; }
     }
 }
