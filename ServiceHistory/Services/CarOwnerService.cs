@@ -1,17 +1,21 @@
-﻿using Entities;
+﻿
+using Entities.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Services
 {
     public class CarOwnerService : ICarOwnerService
     {
-        private IEnumerable<CarOwner> CarOwners = new List<CarOwner>();
-
+        SHistoryContext db = new SHistoryContext();        
+     
         public IEnumerable<CarOwner> GetOwners()
         {
-            return CarOwners;
+            return db.CarOwner.ToList();
+
+           
         }
 
     }

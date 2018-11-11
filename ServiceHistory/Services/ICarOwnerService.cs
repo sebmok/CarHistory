@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Entities;
+﻿using Entities.Models;
+using System.Collections.Generic;
+
 
 namespace Services
 {

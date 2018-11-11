@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Services;
@@ -13,10 +14,11 @@ namespace ServiceHistoryAPI.Controllers
     public class CarOwnersController : ControllerBase
     {
         private readonly ICarOwnerService _carOwnerService;
+     
 
         public CarOwnersController(ICarOwnerService carOwnerService)
         {
-            _carOwnerService = carOwnerService;
+            _carOwnerService = carOwnerService;           
         }
 
         [HttpGet]
